@@ -1,0 +1,266 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dark: var(--gold-dark);
+  --color-bronze: var(--bronze);
+  --color-cream: var(--cream);
+  --font-serif: var(--font-serif);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Bridal palette — inspired by deep maroon bridal & black sherwani with gold zari */
+  --background: oklch(0.955 0.022 60);          /* warm ivory */
+  --foreground: oklch(0.20 0.02 30);            /* near-black brown */
+  --card: oklch(0.97 0.018 65);
+  --card-foreground: oklch(0.22 0.025 30);
+  --popover: oklch(0.97 0.018 65);
+  --popover-foreground: oklch(0.22 0.025 30);
+
+  --primary: oklch(0.38 0.14 25);               /* deep maroon */
+  --primary-foreground: oklch(0.98 0.015 80);
+  --secondary: oklch(0.92 0.035 70);            /* soft champagne */
+  --secondary-foreground: oklch(0.25 0.04 30);
+  --muted: oklch(0.93 0.025 70);
+  --muted-foreground: oklch(0.42 0.05 40);
+  --accent: oklch(0.62 0.14 75);                /* rich gold */
+  --accent-foreground: oklch(0.18 0.02 30);
+
+  --destructive: oklch(0.45 0.18 25);
+  --destructive-foreground: oklch(0.98 0.01 80);
+  --border: oklch(0.78 0.05 70);
+  --input: oklch(0.88 0.035 75);
+  --ring: oklch(0.38 0.14 25);
+
+  --gold: oklch(0.68 0.14 78);
+  --gold-light: oklch(0.84 0.11 85);
+  --gold-dark: oklch(0.46 0.12 65);
+  --bronze: oklch(0.42 0.09 45);
+  --cream: oklch(0.965 0.022 75);
+  --maroon: oklch(0.38 0.14 25);
+  --maroon-deep: oklch(0.26 0.10 22);
+  --noir: oklch(0.15 0.02 30);
+
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-display: "Cinzel", "Trajan Pro", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --gradient-gold: linear-gradient(135deg, oklch(0.84 0.12 85) 0%, oklch(0.62 0.14 75) 45%, oklch(0.40 0.10 60) 100%);
+  --gradient-maroon: linear-gradient(135deg, oklch(0.45 0.14 25) 0%, oklch(0.30 0.12 22) 60%, oklch(0.18 0.06 25) 100%);
+  --gradient-noir: linear-gradient(160deg, oklch(0.22 0.02 30), oklch(0.10 0.015 30));
+  --gradient-cream: linear-gradient(180deg, oklch(0.98 0.018 80), oklch(0.92 0.03 70));
+  --gradient-royal: linear-gradient(135deg, oklch(0.18 0.04 28) 0%, oklch(0.32 0.12 24) 50%, oklch(0.46 0.13 30) 100%);
+
+  /* Layered 3D shadows */
+  --shadow-emboss:
+    0 1px 0 oklch(1 0 0 / 0.7) inset,
+    0 -1px 0 oklch(0.30 0.06 30 / 0.18) inset,
+    0 2px 4px oklch(0.20 0.05 30 / 0.08),
+    0 12px 32px -8px oklch(0.30 0.10 30 / 0.28);
+  --shadow-gold:
+    0 0 0 1px oklch(0.62 0.14 75 / 0.25),
+    0 8px 24px -6px oklch(0.55 0.14 70 / 0.45),
+    0 20px 60px -20px oklch(0.40 0.12 60 / 0.55);
+  --shadow-maroon:
+    0 10px 30px -8px oklch(0.30 0.12 25 / 0.45),
+    0 30px 80px -30px oklch(0.18 0.08 25 / 0.6);
+  --shadow-3d:
+    0 2px 4px oklch(0.20 0.05 30 / 0.10),
+    0 8px 16px oklch(0.20 0.05 30 / 0.12),
+    0 24px 48px -12px oklch(0.20 0.05 30 / 0.20),
+    0 48px 96px -32px oklch(0.20 0.05 30 / 0.25);
+  --shadow-inset-gold:
+    0 1px 0 oklch(0.92 0.10 85 / 0.9) inset,
+    0 -2px 6px oklch(0.40 0.10 60 / 0.4) inset;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    background-image:
+      radial-gradient(ellipse at 12% 18%, oklch(0.45 0.14 25 / 0.10) 0, transparent 45%),
+      radial-gradient(ellipse at 88% 78%, oklch(0.62 0.14 75 / 0.10) 0, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, oklch(0.18 0.04 28 / 0.06) 0, transparent 55%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><g fill='none' stroke='%23a37027' stroke-opacity='0.09' stroke-width='0.6'><circle cx='70' cy='70' r='48'/><circle cx='70' cy='70' r='32'/><circle cx='70' cy='70' r='16'/><path d='M70 22 L82 58 L118 70 L82 82 L70 118 L58 82 L22 70 L58 58 Z'/></g></svg>");
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    letter-spacing: 0.01em;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-serif { font-family: var(--font-serif); }
+
+  .text-gold { color: var(--gold); }
+  .text-maroon { color: var(--maroon); }
+  .text-noir { color: var(--noir); }
+  .bg-gold { background-color: var(--gold); }
+  .bg-maroon { background-color: var(--maroon); }
+  .bg-noir { background-color: var(--noir); }
+  .bg-gradient-gold { background-image: var(--gradient-gold); }
+  .bg-gradient-maroon { background-image: var(--gradient-maroon); }
+  .bg-gradient-noir { background-image: var(--gradient-noir); }
+  .bg-gradient-cream { background-image: var(--gradient-cream); }
+  .bg-gradient-royal { background-image: var(--gradient-royal); }
+
+  .text-gradient-gold {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-gradient-maroon {
+    background: var(--gradient-maroon);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .shadow-emboss { box-shadow: var(--shadow-emboss); }
+  .shadow-gold { box-shadow: var(--shadow-gold); }
+  .shadow-maroon { box-shadow: var(--shadow-maroon); }
+  .shadow-3d { box-shadow: var(--shadow-3d); }
+  .shadow-inset-gold { box-shadow: var(--shadow-inset-gold); }
+
+  .embossed-card {
+    background:
+      linear-gradient(180deg, oklch(0.98 0.018 80), oklch(0.93 0.03 70));
+    border: 1px solid oklch(0.62 0.10 70 / 0.35);
+    box-shadow: var(--shadow-emboss);
+  }
+
+  /* Rich maroon card with gold zari edge */
+  .royal-card {
+    background: var(--gradient-maroon);
+    color: oklch(0.96 0.02 80);
+    border: 1px solid oklch(0.68 0.14 78 / 0.45);
+    box-shadow:
+      0 0 0 1px oklch(0.68 0.14 78 / 0.15) inset,
+      0 1px 0 oklch(0.84 0.12 85 / 0.25) inset,
+      var(--shadow-maroon);
+  }
+
+  /* 3D gold pill — for buttons */
+  .btn-gold-3d {
+    background: var(--gradient-gold);
+    color: oklch(0.18 0.02 30);
+    border: 1px solid oklch(0.46 0.12 65 / 0.6);
+    box-shadow:
+      0 1px 0 oklch(0.94 0.10 85 / 0.9) inset,
+      0 -2px 4px oklch(0.40 0.10 60 / 0.35) inset,
+      0 4px 10px -2px oklch(0.45 0.12 65 / 0.35),
+      0 12px 28px -8px oklch(0.40 0.12 65 / 0.45);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-gold-3d:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 1px 0 oklch(0.94 0.10 85 / 0.95) inset,
+      0 -2px 4px oklch(0.40 0.10 60 / 0.4) inset,
+      0 6px 14px -2px oklch(0.45 0.12 65 / 0.45),
+      0 16px 36px -8px oklch(0.40 0.12 65 / 0.55);
+  }
+  .btn-gold-3d:active { transform: translateY(0); }
+
+  /* 3D maroon pill */
+  .btn-maroon-3d {
+    background: var(--gradient-maroon);
+    color: oklch(0.96 0.02 80);
+    border: 1px solid oklch(0.18 0.06 25 / 0.6);
+    box-shadow:
+      0 1px 0 oklch(0.68 0.18 28 / 0.4) inset,
+      0 -2px 4px oklch(0.10 0.04 25 / 0.5) inset,
+      0 6px 16px -4px oklch(0.20 0.10 25 / 0.45),
+      0 18px 40px -10px oklch(0.15 0.08 25 / 0.55);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-maroon-3d:hover { transform: translateY(-1px); }
+
+  /* Glossy gold foil text */
+  .foil-gold {
+    background: linear-gradient(
+      100deg,
+      oklch(0.62 0.14 75) 0%,
+      oklch(0.92 0.10 88) 30%,
+      oklch(0.55 0.14 65) 55%,
+      oklch(0.92 0.10 88) 78%,
+      oklch(0.50 0.13 60) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: foil-shine 6s ease-in-out infinite;
+    filter: drop-shadow(0 1px 0 oklch(0.30 0.08 50 / 0.4));
+  }
+
+  @keyframes foil-shine {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes gold-shimmer {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.04); }
+  }
+  .animate-gold-shimmer { animation: gold-shimmer 3.5s ease-in-out infinite; }
+
+  @keyframes slow-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .animate-slow-spin { animation: slow-spin 60s linear infinite; }
+
+  @keyframes float-3d {
+    0%, 100% { transform: translateY(0) rotateX(0); }
+    50% { transform: translateY(-6px) rotateX(2deg); }
+  }
+  .animate-float-3d { animation: float-3d 6s ease-in-out infinite; }
+}
+
