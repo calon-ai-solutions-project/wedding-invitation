@@ -1010,6 +1010,10 @@ section.block{position:relative;padding:clamp(70px,12vw,120px) 0}
           <input type="text" name="name" placeholder="Your name" required />
         </div>
         <div class="field">
+          <label>Your Email</label>
+          <input type="email" name="email" placeholder="your@email.com" required />
+        </div>
+        <div class="field">
           <label>Will you attend?</label>
           <div class="seg" id="seg">
             <button type="button" data-v="yes" class="on">Joyfully Accept</button>
@@ -1369,20 +1373,48 @@ section.block{position:relative;padding:clamp(70px,12vw,120px) 0}
 
 /* ---------- rsvp ---------- */
 (function(){
-  const seg=document.getElementById('seg');
-  let val='yes';
-  seg.addEventListener('click',e=>{
-    const b=e.target.closest('button');if(!b)return;
-    val=b.dataset.v;[...seg.children].forEach(c=>c.classList.toggle('on',c===b));
+  var seg=document.getElementById('seg');
+  var attending='yes';
+  seg.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;
+    attending=b.dataset.v;
+    Array.from(seg.children).forEach(function(c){c.classList.toggle('on',c===b);});
   });
-  const form=document.getElementById('rsvpForm');
-  form.addEventListener('submit',e=>{
+  var form=document.getElementById('rsvpForm');
+  var submitBtn=form.querySelector('[type=submit]');
+  form.addEventListener('submit',function(e){
     e.preventDefault();
-    const name=form.name.value.trim()||'Friend';
-    form.innerHTML='<div class="rsvp-done"><div class="script">Thank you, '+name+'!</div>'+
-      '<p class="lede" style="font-size:17px;margin-top:6px">'+
-      (val==='yes'?'We are overjoyed you\'ll be celebrating with us.':'You\'ll be dearly missed — thank you for letting us know.')+
-      '</p></div>';
+    var name =form.elements.name.value.trim();
+    var email=form.elements.email.value.trim();
+    var guests=form.elements.guests.value;
+    var note =form.elements.note.value.trim();
+    if(!name||!email)return;
+    submitBtn.disabled=true;
+    submitBtn.textContent='Sending…';
+    fetch('/api/rsvp',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:name,email:email,attending:attending,guests:guests,note:note})
+    })
+    .then(function(r){return r.json().then(function(d){return{ok:r.ok,data:d};});})
+    .then(function(res){
+      if(res.ok&&res.data.success){
+        form.innerHTML='<div class="rsvp-done">'
+          +'<div class="script" style="font-size:44px">'+(attending==='yes'?'See you there! ✨':'Thank you, '+name+'! \u{1F49B}')+'</div>'
+          +'<p class="lede" style="font-size:17px;margin-top:10px">'
+          +(attending==='yes'
+            ?'We\'re overjoyed you\'ll celebrate with us. A confirmation has been sent to <strong>'+email+'</strong>.'
+            :'You\'ll be dearly missed. A message has been sent to <strong>'+email+'</strong>.')
+          +'</p></div>';
+      }else{
+        submitBtn.disabled=false;submitBtn.textContent='Send RSVP';
+        alert('Something went wrong. Please try again or contact us directly.');
+      }
+    })
+    .catch(function(){
+      submitBtn.disabled=false;submitBtn.textContent='Send RSVP';
+      alert('Connection error. Please check your internet and try again.');
+    });
   });
 })();
 

@@ -1,0 +1,11 @@
+{
+  "name": "wedding-invitation",
+  "version": "1.0.0",
+  "description": "Zarin & Mahbub Wedding Invitation — 16 July 2026",
+  "private": true,
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "resend": "^3.2.0"
+  }
+}
