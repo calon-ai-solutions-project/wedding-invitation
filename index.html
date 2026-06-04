@@ -1223,7 +1223,29 @@ section.block{position:relative;padding:clamp(70px,12vw,120px) 0}
     app.classList.add('live');
     app.style.opacity='1';
     document.body.classList.add('entered');
+
+    /* ── Unlock audio context on mobile (must happen inside user gesture) ── */
+    try{
+      var AC=window.AudioContext||window.webkitAudioContext;
+      if(AC){
+        var ctx=new AC();
+        /* Resume if suspended (iOS requires this) */
+        if(ctx.state==='suspended')ctx.resume();
+        /* Play a 1-frame silent buffer — this permanently unlocks audio */
+        var buf=ctx.createBuffer(1,1,22050);
+        var src=ctx.createBufferSource();
+        src.buffer=buf;src.connect(ctx.destination);src.start(0);
+        window._audioCtx=ctx; /* keep reference so it doesn't get GC'd */
+      }
+    }catch(e){}
+
+    /* ── Play music (or queue it if YouTube isn't ready yet) ── */
     try{window.playMusic&&window.playMusic();}catch(e){}
+
+    /* ── Fallback: retry after YouTube has had time to load (mobile safety net) ── */
+    setTimeout(function(){try{window.playMusic&&window.playMusic();}catch(e){}},1800);
+    setTimeout(function(){try{window.playMusic&&window.playMusic();}catch(e){}},3500);
+
     setTimeout(()=>{loader.style.display='none';},900);
   }
   loader.addEventListener('click',open);
@@ -1413,7 +1435,11 @@ section.block{position:relative;padding:clamp(70px,12vw,120px) 0}
     })
     .catch(function(){
       submitBtn.disabled=false;submitBtn.textContent='Send RSVP';
-      alert('Connection error. Please check your internet and try again.');
+      form.insertAdjacentHTML('afterbegin',
+        '<div style="background:rgba(255,245,230,.9);border:1px solid var(--gold);border-radius:12px;padding:14px 18px;margin-bottom:18px;font-family:var(--font-serif);font-size:15px;color:var(--cream);line-height:1.6">'
+        +'<strong>Could not connect.</strong> Please email us directly at '
+        +'<a href="mailto:mahbubulaom4238@gmail.com?subject=RSVP — '+encodeURIComponent(form.elements.name.value||'Guest')+'" style="color:var(--gold-deep)">'
+        +'mahbubulaom4238@gmail.com</a></div>');
     });
   });
 })();
