@@ -131,11 +131,18 @@ module.exports = async function handler(req, res) {
 
   /* ── 1. Store in Supabase ──────────────────────────────────────────────── */
   const sbUrl = process.env.SUPABASE_URL;
-  const sbKey = process.env.SUPABASE_KEY;
+  const sbKey = process.env.SUPABASE_KEY;           // sb_secret_... (service role)
+  const sbPub = process.env.SUPABASE_PUBLISHABLE_KEY; // sb_publishable_... (anon)
   if (sbUrl && sbKey) {
     try {
       const { createClient } = require('@supabase/supabase-js');
-      const { error } = await createClient(sbUrl, sbKey)
+      // New Supabase key format: publishable key as apikey, secret key as bearer
+      const clientKey = sbPub || sbKey;
+      const sb = createClient(sbUrl, clientKey, {
+        global: { headers: { Authorization: `Bearer ${sbKey}` } },
+        auth: { persistSession: false }
+      });
+      const { error } = await sb
         .from('rsvps')
         .insert([{ name, email, attending: attending || 'yes', guests: guests || '1', note: note || '' }]);
       result.db = error ? 'error' : 'saved';
